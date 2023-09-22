@@ -60,17 +60,22 @@ class Player(object):
         self.calcTotal()
     
     def calcTotal(self):
+        aces : int = 0
         tot = 0
+
         for Value, _, _ in self.Hand:
+            if Value == 1:
+                aces += 1
+
             if Value > 10:
                 tot += 10
-            elif Value == 1 and self.Total < 12:
-                tot += 11
-            elif self.Hand[0][0] == 1 and self.Hand[1][0] == 1 and len(self.Hand) == 2:
-                tot = 12
-            else: 
+            else:
                 tot += Value
-        
+
+            for _ in range(aces):
+                if tot < 12:
+                    tot += 10
+
         self.Total = tot
     
     def checkStatus(self) -> str:
